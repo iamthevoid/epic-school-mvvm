@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="bindingsCache" type="id" />
+    <item name="editTextWatcherDelegate" type="id" />
+    <item name="recyclerAdapter" type="id" />
+</resources>

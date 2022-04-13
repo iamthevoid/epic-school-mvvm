@@ -1,4 +1,4 @@
-package iam.thevoid.epic.myapplication.ui.recycler
+package iam.thevoid.epic.myapplication.presentation.util
 
 import androidx.recyclerview.widget.DiffUtil
 

@@ -5,7 +5,8 @@
       <map>
         <entry key="app/src/main/res/drawable/bckg_country_flag.xml" value="0.1195" />
         <entry key="app/src/main/res/drawable/ic_baseline_festival_24.xml" value="0.1195" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.2823486328125" />
+        <entry key="app/src/main/res/layout/item_domain.xml" value="0.17553191489361702" />
         <entry key="app/src/main/res/layout/item_string.xml" value="0.3815126050420168" />
       </map>
     </option>

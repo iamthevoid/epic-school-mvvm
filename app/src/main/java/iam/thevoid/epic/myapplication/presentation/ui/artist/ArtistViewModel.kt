@@ -42,6 +42,13 @@ class ArtistViewModel : ViewModel() {
         .subscribe(::onResponse, Throwable::printStackTrace)
         .also { disposable.add(it) }
 
+    /**
+     * _______________
+     */
+
+    /**
+     * ACTIONS
+     */
 
     fun onTextInput(text: String) {
         updateState { it.copy(input = text) }
@@ -54,6 +61,10 @@ class ArtistViewModel : ViewModel() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(::onResponse, Throwable::printStackTrace)
     }
+
+    /**
+     * _______________
+     */
 
 
     private val flags = mutableMapOf<String, String>()

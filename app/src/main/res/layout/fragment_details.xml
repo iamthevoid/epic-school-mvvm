@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <import type="iam.thevoid.epic.myapplication.data.model.musicbrnz.Artist" />
+
+        <variable
+            name="name"
+            type="String" />
+    </data>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif-medium"
+            android:text="@{name}"
+            android:textColor="#2b2b2b"
+            android:textSize="32sp"
+            tools:text="[Artist]" />
+
+    </FrameLayout>
+</layout>

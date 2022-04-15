@@ -55,7 +55,7 @@
                     android:background="@drawable/bckg_gray_corners_8dp"
                     android:orientation="vertical"
                     android:padding="8dp"
-                    android:visibility="invisible"
+                    app:visibility="@{vm.pagesCount > 1 ? View.VISIBLE : View.INVISIBLE}"
                     tools:visibility="visible">
 
                     <TextView

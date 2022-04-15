@@ -1,7 +1,9 @@
 package iam.thevoid.epic.myapplication.presentation.ui.artist
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.EditText
 import android.widget.Spinner
@@ -13,17 +15,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import iam.thevoid.epic.myapplication.R
+import iam.thevoid.epic.myapplication.databinding.FragmentArtistBinding
 import iam.thevoid.epic.myapplication.presentation.ui.BaseFragment
 import iam.thevoid.epic.myapplication.presentation.ui.detail.DetailsFragment
 
-class ArtistFragment : BaseFragment(R.layout.fragment_artist) {
-
-
-    private lateinit var editText: EditText
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var loading: View
-    private lateinit var spinnerButton: View
-    private lateinit var spinner: Spinner
+class ArtistFragment : BaseFragment() {
 
     private val domainsAdapter = ArtistAdapter {
         parentFragmentManager.beginTransaction()
@@ -32,25 +28,33 @@ class ArtistFragment : BaseFragment(R.layout.fragment_artist) {
             .commit()
     }
 
-    private val pageAdapter by lazy { PageAdapter(spinner.context) }
+    private lateinit var binding : FragmentArtistBinding
+
+    private val pageAdapter by lazy { PageAdapter(binding.spinner.context) }
 
 
     val vm by activityViewModels<ArtistViewModel>()
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        vm.state.observe(requireActivity(), ::applyState)
+        return FragmentArtistBinding.inflate(inflater).also {
+            binding = it
+            binding.vm = vm
+        }.root
+    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vm.state.observe(requireActivity(), ::applyState)
+        binding.spinnerButton.setOnClickListener { binding.spinner.performClick() }
 
-        loading = view.findViewById(R.id.loading)
-
-        spinnerButton = view.findViewById(R.id.spinner_button)
-        spinnerButton.setOnClickListener { spinner.performClick() }
-
-        spinner = view.findViewById(R.id.spinner)
-        spinner.adapter = pageAdapter
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        binding.spinner.adapter = pageAdapter
+        binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 vm.onSelectPage(p2)
             }
@@ -58,33 +62,33 @@ class ArtistFragment : BaseFragment(R.layout.fragment_artist) {
             override fun onNothingSelected(p0: AdapterView<*>?) = Unit
         }
 
-        editText = view.findViewById(R.id.et)
-        editText.addTextChangedListener {
+        binding.et.addTextChangedListener {
             val input = it?.toString().orEmpty()
             vm.onTextInput(input)
         }
 
-        recyclerView = view.findViewById(R.id.recycler)
-        recyclerView.layoutManager = LinearLayoutManager(recyclerView.context)
-        recyclerView.adapter = domainsAdapter
+        binding.recycler.layoutManager = LinearLayoutManager(requireActivity())
+        binding.recycler.adapter = domainsAdapter
     }
 
     private fun applyState(state: ArtistViewState) {
-        if (editText.text.toString() != state.input) {
-            editText.setText(state.input)
-        }
+//        if (binding.et.text.toString() != state.input) {
+//            binding.et.setText(state.input)
+//        }
         domainsAdapter.setItems(state.items)
-        spinnerButton.visibility = if (state.pagesCount > 1) View.VISIBLE else View.INVISIBLE
+        binding.spinner.visibility = if (state.pagesCount > 1) View.VISIBLE else View.INVISIBLE
         pageAdapter.clear()
         pageAdapter.addAll((1..state.pagesCount).map { "$it" })
         if (state.isFirstPage) {
-            spinner.setSelection(0)
+            binding.spinner.setSelection(0)
         }
-//        loading.visibility = if (state.loading) View.VISIBLE else View.INVISIBLE
     }
 
-    @BindingAdapter("app:visibleUnless")
-    fun goneUnless(view: View, loading: Boolean) {
-        view.visibility = if (loading) View.VISIBLE else View.INVISIBLE
+    companion object {
+        @BindingAdapter("app:visibleUnless")
+        @JvmStatic
+        fun goneUnless(view: View, loading: Boolean) {
+            view.visibility = if (loading) View.VISIBLE else View.INVISIBLE
+        }
     }
 }

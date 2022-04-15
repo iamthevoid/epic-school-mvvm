@@ -3,6 +3,7 @@ package iam.thevoid.epic.myapplication.presentation.ui.artist
 import android.os.Handler
 import android.os.Looper
 import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableInt
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,6 +22,10 @@ import java.util.concurrent.TimeUnit
 
 class ArtistViewModel : ViewModel() {
 
+    val loading: ObservableBoolean = ObservableBoolean(false)
+
+    val pagesCount: ObservableInt = ObservableInt(0)
+
     private val _liveData: MutableLiveData<ArtistViewState> = MutableLiveData(ArtistViewState())
 
     val state: LiveData<ArtistViewState> = _liveData
@@ -29,7 +34,7 @@ class ArtistViewModel : ViewModel() {
 
     private val disposable = CompositeDisposable()
 
-    val loading: ObservableBoolean = ObservableBoolean(false)
+    private val flags = mutableMapOf<String, String>()
 
     private val getArtistSubscription = subject
         .subscribeOn(Schedulers.io())
@@ -56,6 +61,7 @@ class ArtistViewModel : ViewModel() {
     }
 
     fun onSelectPage(page: Int) {
+        updateState { it.copy(isFirstPage = page == 0) }
         val query = subject.value ?: return
         requestPage(query, page)
             .observeOn(AndroidSchedulers.mainThread())
@@ -66,10 +72,8 @@ class ArtistViewModel : ViewModel() {
      * _______________
      */
 
-
-    private val flags = mutableMapOf<String, String>()
-
     private fun onResponse(page: ArtistsPage) {
+        pagesCount.set(page.count)
         updateState {
             it.copy(
                 items = page.artists.map { ArtistData(it, flags[it.country]) },
@@ -78,7 +82,7 @@ class ArtistViewModel : ViewModel() {
             )
         }
 
-        val countries = page.artists.mapNotNull(Artist::country)
+        val countries = page.artists.mapNotNull(Artist::country).toSet().toList()
         if (!countries.all(flags.keys::contains)) {
             requestFlags(countries - flags.keys)
         }
@@ -109,8 +113,14 @@ class ArtistViewModel : ViewModel() {
     private fun requestPage(query: String, page: Int = 1): Single<ArtistsPage> {
         return MusicbrainzClient.getPage(query, offset = (page - 1) * MusicbrainzClient.PAGE_SIZE)
             .subscribeOn(Schedulers.io())
-            .doOnSubscribe { Handler(Looper.getMainLooper()).post { loading.set(true) } }
-            .doOnEvent { _, _ -> Handler(Looper.getMainLooper()).post { loading.set(false) } }
+            .doOnSubscribe {
+                loading.set(true)
+                updateState { it.copy(loading = true) }
+            }
+            .doOnEvent { _, _ ->
+                loading.set(false)
+                updateState { it.copy(loading = true) }
+            }
             .retryWithDelay()
     }
 

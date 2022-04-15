@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 
-open class BaseFragment(@LayoutRes id: Int): Fragment(id) {
+open class BaseFragment(@LayoutRes id: Int = 0): Fragment(id) {
 
     override fun onCreateView(
         inflater: LayoutInflater,

@@ -12,6 +12,9 @@
         <entry key="app/src/main/res/layout/item_artist.xml" value="0.17553191489361702" />
         <entry key="app/src/main/res/layout/item_domain.xml" value="0.17553191489361702" />
         <entry key="app/src/main/res/layout/item_string.xml" value="0.3815126050420168" />
+        <entry key="sandbox/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="sandbox/src/main/res/layout/list_item.xml" value="0.17553191489361702" />
+        <entry key="sandbox/src/main/res/layout/list_item_right.xml" value="0.17553191489361702" />
       </map>
     </option>
   </component>

@@ -39,42 +39,21 @@
                         android:hint="Artist">
 
                         <EditText
+                            android:text="@={vm.searchQuery}"
                             android:id="@+id/et"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
 
                     </com.google.android.material.textfield.TextInputLayout>
                 </FrameLayout>
-
-                <LinearLayout
-                    android:id="@+id/spinner_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="8dp"
-                    android:layout_marginStart="32dp"
-                    android:background="@drawable/bckg_gray_corners_8dp"
-                    android:orientation="vertical"
-                    android:padding="8dp"
-                    android:visibility="invisible"
-                    tools:visibility="visible">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Page:" />
-
-                    <Spinner
-                        android:id="@+id/spinner"
-                        android:layout_width="108dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="8dp"
-                        tools:listitem="@layout/support_simple_spinner_dropdown_item" />
-                </LinearLayout>
             </LinearLayout>
 
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler"
+                app:items="@{vm.items}"
+                app:itemBinding="@{vm.itemBinding}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_margin="8dp"
@@ -89,7 +68,7 @@
             android:layout_gravity="center"
             android:background="@drawable/bckg_gray_corners_8dp"
             android:padding="8dp"
-            app:visibleUnless="@{vm.loading}">
+            android:visibility="@{vm.loading ? View.VISIBLE : View.INVISIBLE}">
 
             <ProgressBar
                 android:layout_width="match_parent"

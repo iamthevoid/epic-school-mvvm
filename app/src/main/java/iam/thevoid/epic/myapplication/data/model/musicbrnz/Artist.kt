@@ -1,8 +1,13 @@
 package iam.thevoid.epic.myapplication.data.model.musicbrnz
 
 data class Artist(
+    val id: String,
     val name: String,
     val type: String,
     val disambiguation: String?,
-    val country: String
-)
+    val country: String?
+) {
+    companion object {
+        const val EMPTY_DISAMBIGUATION = "---"
+    }
+}

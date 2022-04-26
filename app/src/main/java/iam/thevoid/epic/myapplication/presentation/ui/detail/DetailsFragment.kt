@@ -2,11 +2,11 @@ package iam.thevoid.epic.myapplication.presentation.ui.detail
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.Fragment
 import iam.thevoid.epic.myapplication.R
 import iam.thevoid.epic.myapplication.databinding.FragmentDetailsBinding
-import iam.thevoid.epic.myapplication.presentation.ui.BaseFragment
 
-class DetailsFragment: BaseFragment(R.layout.fragment_details) {
+class DetailsFragment: Fragment() {
 
     companion object {
 

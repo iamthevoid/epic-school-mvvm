@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import iam.thevoid.epic.myapplication.R
 
 
-class MainActivity : BaseActivity() {
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

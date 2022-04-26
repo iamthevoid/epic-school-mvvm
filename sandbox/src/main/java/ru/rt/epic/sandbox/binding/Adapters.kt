@@ -1,9 +1,11 @@
 package ru.rt.epic.sandbox.binding
 
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
+import coil.load
 import java.util.*
 
 @BindingAdapter("app:time")

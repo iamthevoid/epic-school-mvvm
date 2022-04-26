@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Artist Search</string>
+    <string name="item">Item %d</string>
+</resources>

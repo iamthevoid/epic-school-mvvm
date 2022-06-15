@@ -15,10 +15,10 @@ object Cache {
     fun <T : Any> lazy(key: String, factory: () -> T): T =
         (get(key)) ?: factory().also { set(key, it) }
 
-    operator fun <T : Any> get(key: String): T? = cache[key] as? T
+    operator fun <T : Any> get(key: String): T? = cache.value?.get(key) as? T
 
     operator fun <T : Any> set(key: String, item: T) {
-        cache[key] = item
+        cache.value?.put(key, item)
     }
 
 }
